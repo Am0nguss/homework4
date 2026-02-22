@@ -1,1 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Interactive Photo Gallery</title>
 
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: #f6f7fb;
+        color: #111;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 24px 16px;
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        font-size: 28px;
+      }
+
+      p {
+        margin: 0 0 16px;
+        line-height: 1.6;
+      }
+
+      /* Preview area */
+      #image {
+        height: 420px;
+        border-radius: 16px;
+        border: 2px solid #d7dbe7;
+        background: #fff;
+        background-size: cover;
+        background-position: center;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 18px;
+        font-size: 20px;
+        font-weight: 600;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        transition: transform 150ms ease;
+      }
+
+      #image:focus-within {
+        outline: 3px solid #4c7dff;
+        outline-offset: 3px;
+      }
+
+      .grid {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+
+      figure {
+        margin: 0;
+      }
+
+      .thumb {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 14px;
+        border: 2px solid #d7dbe7;
+        background: #fff;
+        cursor: pointer;
+        transition: transform 120ms ease, box-shadow 120ms ease;
+      }
+
+      .thumb:hover,
+      .thumb:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+        outline: none;
+      }
+
+      figcaption {
+        font-size: 14px;
+        margin-top: 8px;
+        color: #555;
+      }
+
+      @media (max-width: 820px) {
+        #image {
+          height: 320px;
+          font-size: 18px;
+        }
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 520px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .thumb {
+          height: 190px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <h1>Interactive Photo Gallery</h1>
+      <p>Hover over an image below to display here.</p>
+
+      <!-- This is the element we update via JS -->
+      <div id="image" aria-live="polite">Hover over an image below to display here.</div>
+
+      <section class="grid" aria-label="Gallery thumbnails">
+        <figure>
+          <img
+            class="thumb"
+            src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=900&q=60"
+            alt="A laptop on a desk with code on the screen"
+            onmouseover="upDate(this)"
+            onmouseout="undo()"
+            tabindex="0"
+          />
+          <figcaption>Laptop + code</figcaption>
+        </figure>
+
+        <figure>
+          <img
+            class="thumb"
+            src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?auto=format&fit=crop&w=900&q=60"
+            alt="Abstract digital symbols with neon lighting"
+            onmouseover="upDate(this)"
+            onmouseout="undo()"
+            tabindex="0"
+          />
+          <figcaption>Digital data</figcaption>
+        </figure>
+
+        <figure>
+          <img
+            class="thumb"
+            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=60"
+            alt="Mountains at sunrise with fog in the valley"
+            onmouseover="upDate(this)"
+            onmouseout="undo()"
+            tabindex="0"
+          />
+          <figcaption>Nature</figcaption>
+        </figure>
+
+        <figure>
+          <img
+            class="thumb"
+            src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=60"
+            alt="People collaborating at a table with laptops"
+            onmouseover="upDate(this)"
+            onmouseout="undo()"
+            tabindex="0"
+          />
+          <figcaption>Collaboration</figcaption>
+        </figure>
+
+        <figure>
+          <img
+            class="thumb"
+            src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=60"
+            alt="A close-up of a computer keyboard"
+            onmouseover="upDate(this)"
+            onmouseout="undo()"
+            tabindex="0"
+          />
+          <figcaption>Keyboard</figcaption>
+        </figure>
+
+        <figure>
+          <img
+            class="thumb"
+            src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=60"
+            alt="A calm lake with reflections and soft light"
+            onmouseover="upDate(this)"
+            onmouseout="undo()"
+            tabindex="0"
+          />
+          <figcaption>Calm lake</figcaption>
+        </figure>
+      </section>
+    </main>
+
+    <script>
+      function upDate(previewPic) {
+        // Проверка, что событие срабатывает
+        console.log("Mouse over:", previewPic);
+        console.log("alt:", previewPic.alt);
+        console.log("src:", previewPic.src);
+
+        const imageDiv = document.getElementById("image");
+
+        // Меняем текст
+        imageDiv.innerHTML = previewPic.alt;
+
+        // Меняем фон
+        imageDiv.style.backgroundImage = `url('${previewPic.src}')`;
+      }
+
+      function undo() {
+        const imageDiv = document.getElementById("image");
+
+        // Возвращаем исходный текст
+        imageDiv.innerHTML = "Hover over an image below to display here.";
+
+        // Возвращаем пустой фон
+        imageDiv.style.backgroundImage = "url('')";
+      }
+    </script>
+  </body>
+</html>
